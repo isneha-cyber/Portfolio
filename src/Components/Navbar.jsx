@@ -48,12 +48,12 @@ export default function Navbar() {
           isVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 ">
           <div className="flex items-center justify-between h-16 sm:h-20">
            {/* Logo */}
             <a 
               href="/" 
-              className="inline-flex items-center gap-1 transition-opacity hover:opacity-80"
+              className="inline-flex items-center gap-1 cursor-pointer transition-opacity hover:opacity-80"
               aria-label="ISNEHA home"
             >
               <span className="text-2xl sm:text-3xl font-semibold text-black">
@@ -64,7 +64,7 @@ export default function Navbar() {
             {/* Hamburger Menu Button */}
             <button
               onClick={toggleMenu}
-              className="relative z-50 flex flex-col justify-center items-center w-10 h-10 focus:outline-none group"
+              className="relative z-50 flex flex-col cursor-pointer justify-center items-center w-10 h-10 focus:outline-none group"
               aria-label="Toggle menu"
               aria-expanded={isMenuOpen}
             >
@@ -98,7 +98,7 @@ export default function Navbar() {
         />
         
         {/* Menu Panel - 1/3 width on desktop, full width on mobile */}
-        <div className="absolute top-0 right-0 h-full w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black shadow-2xl">
+        <div className="absolute top-0 right-0 h-full w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black shadow-2xl ">
           {/* Menu Content */}
           <div className="relative h-full flex flex-col justify-between px-6 sm:px-8 lg:px-12 py-8">
             {/* Close Button */}
@@ -113,7 +113,7 @@ export default function Navbar() {
             </div>
 
             {/* Menu Links - Centered */}
-            <nav className="flex flex-col space-y-4 sm:space-y-6 items-start">
+            <nav className="flex flex-col space-y-4 sm:space-y-6 items-start cursor-pointer">
               <a
                 href="/"
                 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white hover:opacity-60 transition-all duration-300 uppercase tracking-tight ${
@@ -148,13 +148,13 @@ export default function Navbar() {
 
             {/* Bottom Section */}
             <div
-              className={`flex flex-col items-start gap-6 transition-all duration-500 ${
+              className={`flex flex-col items-start gap-6 transition-all duration-500  ${
                 isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
               }`}
               style={{ transitionDelay: isMenuOpen ? '400ms' : '0ms' }}
             >
               {/* Contact Links */}
-              <div className="flex flex-col gap-2 text-sm sm:text-base">
+              <div className="flex flex-col gap-2 text-sm sm:text-base cursor-pointer">
                 <a
                   href="mailto:contact@isneha.com"
                   className="text-white hover:opacity-60 transition-opacity"
@@ -172,7 +172,7 @@ export default function Navbar() {
               </div>
 
               {/* Availability Status */}
-              <div className="flex flex-col items-start gap-1 text-sm">
+              <div className="flex flex-col items-start gap-1 text-sm ">
                 <span className="text-white">Freelancer Availability</span>
                 <div className="flex items-center gap-2">
                   <div className="relative">

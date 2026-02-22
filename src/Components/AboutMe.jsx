@@ -13,6 +13,7 @@ const AboutMe = () => {
   const overlayRef = useRef(null);
   const imageContainerRef = useRef(null);
   const contentSectionRef = useRef(null);
+  const imageWrapperRef = useRef(null);
   
   const [isMounted, setIsMounted] = useState(false);
 
@@ -28,7 +29,7 @@ const AboutMe = () => {
         mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
           if (!sectionRef.current || !titleLineRef.current || !pinRef.current || 
               !imageContainerRef.current || !imageRef.current || !overlayRef.current || 
-              !infoRef.current || !contentSectionRef.current) {
+              !infoRef.current || !contentSectionRef.current || !imageWrapperRef.current) {
             return;
           }
 
@@ -51,7 +52,7 @@ const AboutMe = () => {
               trigger: sectionRef.current,
               start: 'top top',
               end: '+=100%',
-              scrub: 1,
+              scrub: 1.5,
               pin: pinRef.current,
               pinSpacing: true,
               anticipatePin: 1,
@@ -59,35 +60,51 @@ const AboutMe = () => {
             },
           });
 
+          // Animate the image container
           tl.to(imageContainerRef.current, {
-            width: '70%',
-            marginLeft: '15%',
-            marginRight: '15%',
-            height: '50vh', // Reduced from 90vh to a more reasonable height
+            width: '67%',
+            marginLeft: '16.5%',
+            marginRight: '16.5%',
+            height: '94vh',
             ease: 'power2.inOut',
             duration: 1,
           }, 0)
+          // Animate the image wrapper
+          .to(imageWrapperRef.current, {
+            width: '100%',
+            height: '100%',
+            ease: 'power2.inOut',
+            duration: 1,
+          }, 0)
+          // Animate the image itself
           .to(imageRef.current, {
             scale: 1,
             ease: 'power2.inOut',
             duration: 1,
             onUpdate: function() {
               if (imageRef.current) {
-                if (this.progress > 0.5) {
+                const progress = this.progress;
+                // Smooth transition from cover to contain
+                if (progress > 0.7) {
                   imageRef.current.style.objectFit = 'contain';
-                  imageRef.current.style.transform = 'scale(1)';
+                  imageRef.current.style.objectPosition = 'center';
+                } else if (progress > 0.3) {
+                  imageRef.current.style.objectFit = 'cover';
+                  imageRef.current.style.objectPosition = 'center 30%';
                 } else {
                   imageRef.current.style.objectFit = 'cover';
-                  imageRef.current.style.transform = 'scale(1.1)';
+                  imageRef.current.style.objectPosition = 'center 30%';
                 }
               }
             }
           }, 0)
+          // Animate the overlay to reveal image
           .to(overlayRef.current, {
-            height: '100%',
+            height: '0%',
             ease: 'power2.inOut',
             duration: 1,
           }, 0)
+          // Fade out the info text
           .to(infoRef.current, {
             opacity: 0,
             y: -50,
@@ -118,11 +135,12 @@ const AboutMe = () => {
 
         mm.add('(max-width: 1023px) and (prefers-reduced-motion: no-preference)', () => {
           if (!sectionRef.current || !titleLineRef.current || !infoRef.current || 
-              !imageContainerRef.current || !imageRef.current || !overlayRef.current) {
+              !imageContainerRef.current || !imageRef.current || !overlayRef.current || 
+              !imageWrapperRef.current) {
             return;
           }
 
-          // Title animation - FIXED: opacity should be 0, not 1
+          // Title animation
           gsap.from(titleLineRef.current, {
             yPercent: 100,
             opacity: 0,
@@ -135,7 +153,7 @@ const AboutMe = () => {
             },
           });
 
-          // Info animation - FIXED: opacity should be 0, not 1
+          // Info animation
           gsap.from(infoRef.current, {
             y: 16,
             opacity: 0,
@@ -149,53 +167,54 @@ const AboutMe = () => {
             },
           });
 
-          // Container animation
+          // Container animation for mobile
           gsap.to(imageContainerRef.current, {
             width: '90%',
             marginLeft: '5%',
             marginRight: '5%',
-            height: '90vh',
-            ease: 'none',
+            height: '80vh',
+            ease: 'power2.inOut',
             scrollTrigger: {
               trigger: imageContainerRef.current,
               start: 'top 90%',
               end: 'bottom 20%',
-              scrub: 0.7,
+              scrub: 1,
             },
           });
 
-          // Image animation - FIXED: Corrected the logic (starts with cover, ends with contain)
+          // Image animation for mobile
           gsap.to(imageRef.current, {
             scale: 1,
-            ease: 'none',
+            ease: 'power2.inOut',
             scrollTrigger: {
               trigger: imageContainerRef.current,
               start: 'top 90%',
               end: 'bottom 20%',
-              scrub: 0.7,
+              scrub: 1,
             },
             onUpdate: function() {
               if (imageRef.current) {
-                if (this.progress > 0.5) {
+                const progress = this.progress;
+                if (progress > 0.7) {
                   imageRef.current.style.objectFit = 'contain';
-                  imageRef.current.style.transform = 'scale(1)';
+                  imageRef.current.style.objectPosition = 'center';
                 } else {
                   imageRef.current.style.objectFit = 'cover';
-                  imageRef.current.style.transform = 'scale(1.1)';
+                  imageRef.current.style.objectPosition = 'center 30%';
                 }
               }
             }
           });
 
-          // Overlay animation
+          // Overlay animation for mobile
           gsap.to(overlayRef.current, {
-            height: '100%',
-            ease: 'none',
+            height: '0%',
+            ease: 'power2.inOut',
             scrollTrigger: {
               trigger: imageContainerRef.current,
               start: 'top 90%',
               end: 'bottom 20%',
-              scrub: 0.7,
+              scrub: 1,
             },
           });
         });
@@ -211,7 +230,7 @@ const AboutMe = () => {
 
   return (
     <>
-      <section ref={sectionRef} className="relative w-full bg-white">
+      <section ref={sectionRef} className="relative w-full  overflow-hidden">
         {/* Vertical grid lines */}
         <div className="absolute inset-0 pointer-events-none grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-9">
           {[...Array(9)].map((_, i) => (
@@ -239,15 +258,22 @@ const AboutMe = () => {
               </div>
             </div>
 
-            {/* Image container with proper styling - REMOVED py-20 which was causing issues */}
+            {/* Image container - This will be animated to 67% width and 94% height */}
             <div 
               ref={imageContainerRef} 
-              className="relative mt-8 w-full sm:mt-10 lg:mt-12"
+              className="relative mt-8 sm:mt-10 lg:mt-12 transition-all duration-300 ease-in-out"
               style={{ 
+                width: '100%',
                 height: '90vh',
+                marginLeft: '0',
+                marginRight: '0',
               }}
             >
-              <div className="relative w-full h-full overflow-hidden">
+              {/* Image wrapper - Ensures proper containment */}
+              <div 
+                ref={imageWrapperRef}
+                className="relative w-full h-full overflow-hidden "
+              >
                 <img
                   ref={imageRef}
                   src="/images/person.jpg"
@@ -256,14 +282,15 @@ const AboutMe = () => {
                   className="w-full h-full transition-all duration-300"
                   style={{
                     objectFit: 'cover',
-                    objectPosition: '50% 30%',
+                    objectPosition: 'center 30%',
                     transform: 'scale(1.1)',
                   }}
                 />
-                {/* Overlay element - FIXED: Start with height 0% */}
+                
+                {/* Overlay element - Starts at 100% height to hide image, animates to 0% */}
                 <div 
                   ref={overlayRef}
-                  className="absolute bottom-0 left-0 w-full pointer-events-none"
+                  className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white via-white to-transparent"
                   style={{ 
                     height: '100%',
                     zIndex: 20,
