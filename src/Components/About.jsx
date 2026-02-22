@@ -150,7 +150,7 @@ const About = () => {
         {/* Vertical grid lines */}
         <div className="absolute inset-0 pointer-events-none grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-9">
           {[...Array(9)].map((_, i) => (
-            <div key={i} className="border-r border-gray-100 h-full" />
+            <div key={i} className="border-r border-gray-200 h-full" />
           ))}
         </div>
 

@@ -2,24 +2,24 @@ import { useState } from 'react'
 
 import './App.css'
 import Navbar from './Components/Navbar'
-
-import Projects from './Components/Projects'
 import Footer from './Components/Footer'
-import Abilities from './Components/Abilities'
-import Hero from './Components/Hero'
-import About from './Components/About'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import HomePage from './Pages/HomePage'
+import AboutPage from './Pages/AboutPage'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+      <BrowserRouter>
    <Navbar/>
-   <Hero/>
-   <About/>
-   <Projects/>
-   <Abilities/>
+   <Routes>
+ <Route path="/" element={<HomePage/>} /> 
+ <Route path="/about" element={<AboutPage/>} />
+   </Routes>
    <Footer/>
+   </BrowserRouter>
     </>
   )
 }
